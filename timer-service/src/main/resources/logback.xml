@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 所有日志文件 -->
+    <appender name="AllLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/Users/panqingqing/logs/timer/timer-inrpc-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--如果maxHistory设置为30，那么超过30天的log文件会被自动删除。-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 下面配置一些第三方包的日志过滤级别，用于避免刷屏 -->
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
+    <logger name="com.opensymphony" level="INFO"/>
+    <logger name="org.apache" level="INFO"/>
+    <logger name="org.quartz" level="INFO"/>
+
+    <!--<logger name="com.grace.timer" level="DEBUG">
+        <appender-ref ref="stdout"/>
+    </logger>-->
+    <!-- 会向上传递,传给root,root会纪录文件和打印控制台 -->
+    <logger name="com.grace.timer"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="AllLog"/>
+    </root>
+
+</configuration>
